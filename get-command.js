@@ -1,6 +1,6 @@
 const http = require("http");
 
-export function getCommand() {
+function getCommand() {
   return new Promise((resolve, reject) => {
     const data = new TextEncoder().encode(
       JSON.stringify({
@@ -62,3 +62,6 @@ export function getCommand() {
 }
 
 
+module.exports = {
+  getCommand
+}
