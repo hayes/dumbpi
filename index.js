@@ -41,7 +41,7 @@ function waitForButton(pin) {
       rpio.poll(pin, null)
       rpio.close(pin)
       resolve()
-    }, rpio.LOW)
+    }, rpio.POLL_BOTH)
   })
 }
 
