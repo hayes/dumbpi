@@ -1,14 +1,47 @@
 const rpio = require("rpio");
 
 rpio.init({
-  gpiomem: true,          /* Use /dev/gpiomem */
-  mapping: 'gpio',    /* Use the P1-P40 numbering scheme */
+  gpiomem: true,
+  mapping: 'gpio',
   close_on_exit: true,
 })
 
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+
+function debounce(fn, ms) {
+  let timer;
+  let lastArgs
+  
+  return (...args) => {
+      if (timer) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(() => {
+        timer = null;
+        
+        return fn(...lastArgs);
+      }, ms)
+  }
+}
+
+function waitForButton(pin) {
+  rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
+
+  return new Promise((resolve) => {
+    rpio.poll(pin, debounce(async () => {
+      if (rpio.read(pin)) {
+        return
+      }
+              
+      rpio.poll(pin, null)
+      rpio.close(pin)
+      resolve()
+    }, 20), rpio.LOW)
+  })
 }
 
 const command = {
@@ -55,4 +88,11 @@ async function runCommand({ steps }) {
   }
 }
 
-runCommand(command).then(() => console.log('done'))
+async function main() {
+  while (true) {
+    await waitForButton(21);
+    await runCommand(command);
+  }
+}
+
+main.then(() => console.log('done'))
