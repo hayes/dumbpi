@@ -29,7 +29,7 @@ function debounce(fn, ms) {
 
 function waitForButton(pin) {
   console.log('waiting for button')
-  rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
+  rpio.open(pin, rpio.INPUT, rpio.PULL_DOWN);
 
   return new Promise((resolve) => {
     rpio.poll(pin, () => {
