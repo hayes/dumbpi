@@ -1,4 +1,5 @@
 const rpio = require("rpio");
+const { getCommand } = require("./get-command");
 
 rpio.init({
   gpiomem: true,
@@ -47,36 +48,6 @@ async function waitForButton(pin) {
   });
 }
 
-const command = {
-  steps: [
-    {
-      pins: [
-        {
-          pin: 2,
-          level: rpio.LOW,
-          mode: rpio.OUTPUT,
-        },
-        {
-          pin: 3,
-          level: rpio.LOW,
-          mode: rpio.OUTPUT,
-        },
-      ],
-      duration: 5000,
-    },
-    {
-      pins: [
-        {
-          pin: 4,
-          level: rpio.LOW,
-          mode: rpio.OUTPUT,
-        },
-      ],
-      duration: 2000,
-    },
-  ],
-};
-
 async function runCommand({ steps }) {
   for (const { pins, duration } of steps) {
     for (const pin of pins) {
@@ -94,8 +65,10 @@ async function runCommand({ steps }) {
 async function main() {
   while (true) {
     await waitForButton(21);
-    await sleep(500)
+
+    const command = await getCommand()
     console.log('running command')
+    console.log(JSON.stringify(command, null, 2))
     await runCommand(command);
   }
 }
