@@ -66,10 +66,14 @@ async function main() {
   while (true) {
     await waitForButton(21);
 
-    const command = await getCommand()
-    console.log('running command')
-    console.log(JSON.stringify(command, null, 2))
-    await runCommand(command);
+    try {
+      const command = await getCommand()
+      console.log('running command')
+      console.log(JSON.stringify(command, null, 2))
+      await runCommand(command);
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 
