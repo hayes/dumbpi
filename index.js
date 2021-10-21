@@ -95,4 +95,4 @@ async function main() {
   }
 }
 
-main.then(() => console.log('done'))
+main().then(() => console.log('done'))
