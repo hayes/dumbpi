@@ -27,7 +27,7 @@ function debounce(fn, ms) {
   }
 }
 
-function waitForButton(pin) {
+async function waitForButton(pin) {
   console.log('waiting for button')
 
   rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
