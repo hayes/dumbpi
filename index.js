@@ -32,7 +32,7 @@ function waitForButton(pin) {
   rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
 
   return new Promise((resolve) => {
-    rpio.poll(pin, debounce(async () => {
+    rpio.poll(pin, () => {
       console.log('button pressed')
       if (rpio.read(pin)) {
         return
@@ -41,7 +41,7 @@ function waitForButton(pin) {
       rpio.poll(pin, null)
       rpio.close(pin)
       resolve()
-    }, 20), rpio.LOW)
+    }), rpio.LOW)
   })
 }
 
