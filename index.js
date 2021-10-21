@@ -14,8 +14,7 @@ function sleep(ms) {
 
 function debounce(fn, ms) {
   let timer;
-  let lastArgs
-  
+
   return (...args) => {
       if (timer) {
         clearTimeout(timer)
@@ -23,16 +22,18 @@ function debounce(fn, ms) {
       timer = setTimeout(() => {
         timer = null;
         
-        return fn(...lastArgs);
+        return fn(...args);
       }, ms)
   }
 }
 
 function waitForButton(pin) {
+  console.log('waiting for button')
   rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
 
   return new Promise((resolve) => {
     rpio.poll(pin, debounce(async () => {
+      console.log('button pressed')
       if (rpio.read(pin)) {
         return
       }
