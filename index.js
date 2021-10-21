@@ -29,20 +29,26 @@ function debounce(fn, ms) {
 
 function waitForButton(pin) {
   console.log('waiting for button')
-  rpio.open(pin, rpio.INPUT, rpio.PULL_DOWN);
 
-  return new Promise((resolve) => {
-    rpio.poll(pin, () => {
-      console.log('button pressed')
-      if (rpio.read(pin)) {
-        return
-      }
+  rpio.open(pin, rpio.INPUT, rpio.PULL_UP);
+
+  while (true) {
+    console.log(rpio.read(pin))
+    await (sleep(1000))
+  }
+
+  // return new Promise((resolve) => {
+  //   rpio.poll(pin, () => {
+  //     console.log('button pressed')
+  //     if (rpio.read(pin)) {
+  //       return
+  //     }
               
-      rpio.poll(pin, null)
-      rpio.close(pin)
-      resolve()
-    }, rpio.POLL_BOTH)
-  })
+  //     rpio.poll(pin, null)
+  //     rpio.close(pin)
+  //     resolve()
+  //   }, rpio.POLL_BOTH)
+  // })
 }
 
 const command = {
