@@ -1,4 +1,4 @@
-const http = require("http");
+const https = require("https");
 
 function getCommand() {
   return new Promise((resolve, reject) => {
@@ -22,8 +22,8 @@ function getCommand() {
     );
 
     const options = {
-      hostname: "192.168.1.86",
-      port: 3000,
+      hostname: "hanford.page",
+      port: 441,
       path: "/api/graphql",
       method: "POST",
       headers: {
@@ -32,7 +32,7 @@ function getCommand() {
       },
     };
 
-    const req = http.request(options, (res) => {
+    const req = https.request(options, (res) => {
       const buf = [];
 
       res.on("error", reject);
