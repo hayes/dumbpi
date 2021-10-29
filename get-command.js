@@ -1,6 +1,7 @@
 const https = require("https");
 
 function getCommand() {
+  console.log('getting command')
   return new Promise((resolve, reject) => {
     const data = new TextEncoder().encode(
       JSON.stringify({
@@ -23,7 +24,6 @@ function getCommand() {
 
     const options = {
       hostname: "hanford.page",
-      port: 441,
       path: "/api/graphql",
       method: "POST",
       headers: {
